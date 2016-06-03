@@ -7,6 +7,26 @@
     android:layout_height="match_parent"
     tools:context="com.screamy.MainActivity"
     tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="81dp">
+    tools:layout_editor_absoluteY="81dp"
+    app:layout_constraintRight_toRightOf="@+id/activity_main"
+    tools:layout_constraintRight_creator="0">
 
+ <ImageButton
+     android:src="@drawable/stop_button"
+     android:layout_width="236dp"
+     android:layout_height="175dp"
+     tools:layout_editor_absoluteX="62dp"
+     tools:layout_editor_absoluteY="168dp"
+     android:id="@+id/toggle_image_button"
+     android:scaleType="fitCenter"
+     android:background="@null"
+     app:layout_constraintLeft_toLeftOf="@+id/activity_main"
+     tools:layout_constraintLeft_creator="0"
+     app:layout_constraintTop_toTopOf="@+id/activity_main"
+     tools:layout_constraintTop_creator="0"
+     app:layout_constraintRight_toRightOf="@+id/activity_main"
+     tools:layout_constraintRight_creator="0"
+     app:layout_constraintBottom_toBottomOf="@+id/activity_main"
+     tools:layout_constraintBottom_creator="0"
+     android:contentDescription="@string/toggle_scream_button" />
 </android.support.constraint.ConstraintLayout>

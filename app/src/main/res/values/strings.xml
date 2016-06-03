@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ScreaMy</string>
+    <string name="play_button">Play</string>
+    <string name="toggle_scream_button">toggle scream button</string>
 </resources>
