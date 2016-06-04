@@ -11,6 +11,23 @@
     app:layout_constraintRight_toRightOf="@+id/activity_main"
     tools:layout_constraintRight_creator="0">
 
+ <TextView
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:text="@string/device_speed"
+     tools:layout_editor_absoluteX="137dp"
+     tools:layout_editor_absoluteY="93dp"
+     android:id="@+id/speed_text_view"
+     app:layout_constraintLeft_toLeftOf="@+id/activity_main"
+     tools:layout_constraintLeft_creator="0"
+     app:layout_constraintTop_toTopOf="@+id/activity_main"
+     tools:layout_constraintTop_creator="0"
+     app:layout_constraintRight_toRightOf="@+id/activity_main"
+     tools:layout_constraintRight_creator="0"
+     app:layout_constraintBottom_toBottomOf="@+id/activity_main"
+     tools:layout_constraintBottom_creator="0"
+     app:layout_constraintVertical_bias="0.19" />
+
  <ImageButton
      android:src="@drawable/stop_button"
      android:layout_width="236dp"
@@ -20,6 +37,7 @@
      android:id="@+id/toggle_image_button"
      android:scaleType="fitCenter"
      android:background="@null"
+     android:contentDescription="@string/toggle_scream_button"
      app:layout_constraintLeft_toLeftOf="@+id/activity_main"
      tools:layout_constraintLeft_creator="0"
      app:layout_constraintTop_toTopOf="@+id/activity_main"
@@ -27,6 +45,5 @@
      app:layout_constraintRight_toRightOf="@+id/activity_main"
      tools:layout_constraintRight_creator="0"
      app:layout_constraintBottom_toBottomOf="@+id/activity_main"
-     tools:layout_constraintBottom_creator="0"
-     android:contentDescription="@string/toggle_scream_button" />
+     tools:layout_constraintBottom_creator="0" />
 </android.support.constraint.ConstraintLayout>

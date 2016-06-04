@@ -12,7 +12,6 @@ import android.os.IBinder;
 
 public class ScreamyService extends Service implements SensorEventListener {
     private SensorManager senSensorManager;
-    private Sensor senAccelerometer;
 
     private long lastUpdate = 0;
     private float last_x, last_y, last_z;
@@ -28,7 +27,7 @@ public class ScreamyService extends Service implements SensorEventListener {
     public void onCreate() {
         super.onCreate();
         senSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        senAccelerometer = senSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        Sensor senAccelerometer = senSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         senSensorManager.registerListener(this, senAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
 

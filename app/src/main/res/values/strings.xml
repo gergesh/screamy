@@ -2,4 +2,5 @@
     <string name="app_name">ScreaMy</string>
     <string name="play_button">Play</string>
     <string name="toggle_scream_button">toggle scream button</string>
+    <string name="device_speed">Device speed:</string>
 </resources>
