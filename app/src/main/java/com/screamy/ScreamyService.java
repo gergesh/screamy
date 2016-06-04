@@ -18,10 +18,11 @@ import java.io.IOException;
 public class ScreamyService extends Service implements SensorEventListener, MediaPlayer.OnCompletionListener {
     private SensorManager senSensorManager;
     MediaPlayer mediaPlayer;
+    private boolean isPlaying = false;
+
 
     private long lastUpdate = 0;
     private float last_x, last_y, last_z;
-    private boolean isPlaying = false;
 
     public ScreamyService() {
     }
@@ -80,13 +81,13 @@ public class ScreamyService extends Service implements SensorEventListener, Medi
                                         e.printStackTrace();
                                     }
                                 } else {
-                                    //try {
+                                    try {
                                         mediaPlayer = MediaPlayer.create(this, R.raw.screamwilhm);
-                                        //mediaPlayer.prepare();
+                                        mediaPlayer.prepare();
                                         mediaPlayer.start();
-                                    /*} catch (IOException e) {
+                                    } catch (IOException e) {
                                         e.printStackTrace();
-                                    }*/
+                                    }
 
                                 }
                                 mediaPlayer.setOnCompletionListener(this);
@@ -94,11 +95,13 @@ public class ScreamyService extends Service implements SensorEventListener, Medi
                         }
                     }
                 }
+
+                last_x = x;
+                last_y = y;
+                last_z = z;
             }
-            last_x = x;
-            last_y = y;
-            last_z = z;
         }
+
     }
 
     @Override
@@ -112,4 +115,5 @@ public class ScreamyService extends Service implements SensorEventListener, Medi
         mp.release();
         mp = null;
     }
+
 }

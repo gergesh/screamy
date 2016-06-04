@@ -67,7 +67,6 @@ public class RecordSoundFragment extends Fragment implements View.OnTouchListene
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
             listener.onRecordSoundButtonRelease();
         }
-        Log.d("dfefewgeag", event.getAction()+"");
         return true;
     }
 

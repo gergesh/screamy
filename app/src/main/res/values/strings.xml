@@ -5,4 +5,7 @@
     <string name="device_speed">Device speed:</string>
     <string name="settings">Settings</string>
     <string name="welcome_txt">Welcome to Screamy, \n we detect every time that your device falls and make you hear it :)</string>
+    <string name="title_activity_settings">Settings</string>
+
+
 </resources>

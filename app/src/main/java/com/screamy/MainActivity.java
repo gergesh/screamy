@@ -20,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements RecordSoundFragme
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
     }
 
+
     private boolean isScreamyServiceRunning() {
         ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
@@ -58,13 +60,6 @@ public class MainActivity extends AppCompatActivity implements RecordSoundFragme
             }
         }
         return false;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-        return true;
     }
 
     @Override
@@ -93,8 +88,7 @@ public class MainActivity extends AppCompatActivity implements RecordSoundFragme
     @Override
     public void onRecordSoundButtonRelease() {
         Log.d("wnfjne", "end");
-        if (isRecording)
-        {
+        if (isRecording) {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean("isRecordedSound", true);
             editor.commit();
@@ -113,4 +107,22 @@ public class MainActivity extends AppCompatActivity implements RecordSoundFragme
         return pmanager.hasSystemFeature(
                 PackageManager.FEATURE_MICROPHONE);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }
