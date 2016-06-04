@@ -71,21 +71,20 @@ public class ScreamyService extends Service implements SensorEventListener {
                             if (sharedPreferences.getBoolean("isRecordedSound", false)) {
                                 try {
                                     mediaPlayer = new MediaPlayer();
-                                    mediaPlayer.setDataSource(Environment.getExternalStorageDirectory().getAbsolutePath()
-                                            + "/falling_sound.3gp");
+                                    mediaPlayer.setDataSource(sharedPreferences.getString("recordPath", ""));
                                     mediaPlayer.prepare();
                                     mediaPlayer.start();
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
                             } else {
-                                try {
+                                //try {
                                     mediaPlayer = MediaPlayer.create(this, R.raw.screamwilhm);
-                                    mediaPlayer.prepare();
+                                    //mediaPlayer.prepare();
                                     mediaPlayer.start();
-                                } catch (IOException e) {
+                                /*} catch (IOException e) {
                                     e.printStackTrace();
-                                }
+                                }*/
 
                             }
                         }
