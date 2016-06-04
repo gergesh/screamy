@@ -81,14 +81,8 @@ public class ScreamyService extends Service implements SensorEventListener, Medi
                                         e.printStackTrace();
                                     }
                                 } else {
-                                    try {
-                                        mediaPlayer = MediaPlayer.create(this, R.raw.screamwilhm);
-                                        mediaPlayer.prepare();
-                                        mediaPlayer.start();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-
+                                    mediaPlayer = MediaPlayer.create(this, R.raw.screamwilhm);
+                                    mediaPlayer.start();
                                 }
                                 mediaPlayer.setOnCompletionListener(this);
                             }
