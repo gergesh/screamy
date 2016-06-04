@@ -18,13 +18,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.io.IOException;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, RecordSoundFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements RecordSoundFragment.OnFragmentInteractionListener {
     MediaRecorder mediaRecorder;
     private ImageButton toggleButton;
     private boolean isRecording = false;
@@ -42,33 +44,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             fragmentTransaction.commit();
         }
         mediaRecorder = new MediaRecorder();
-        startService(new Intent(this, ScreamyService.class));
+        if (!isScreamyServiceRunning()) {
+            startService(new Intent(this, ScreamyService.class));
+        }
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        /*toggleButton = (ImageButton) findViewById(R.id.toggle_image_button);
-        if (toggleButton != null) {
-            toggleButton.setOnClickListener(this);
-        }
-        if (isScreamyServiceRunning()) {
-            toggleButton.setImageResource(R.drawable.stop_button);
-        } else {
-            toggleButton.setImageResource(R.drawable.play_arrow);
-        }*/
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            /*case R.id.toggle_image_button:
-                if (isScreamyServiceRunning()) {
-                    stopService(new Intent(this, ScreamyService.class));
-                    toggleButton.setImageResource(R.drawable.play_arrow);
-
-                } else {
-                    startService(new Intent(this, ScreamyService.class));
-                    toggleButton.setImageResource(R.drawable.stop_button);
-                }
-                break;*/
-        }
     }
 
     private boolean isScreamyServiceRunning() {
@@ -79,6 +58,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
     }
 
     @Override
