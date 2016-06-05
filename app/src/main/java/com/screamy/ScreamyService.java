@@ -8,7 +8,10 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.audiofx.AudioEffect;
+import android.os.Build;
 import android.os.Environment;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
@@ -17,12 +20,16 @@ import java.io.IOException;
 
 public class ScreamyService extends Service implements SensorEventListener, MediaPlayer.OnCompletionListener {
     private SensorManager senSensorManager;
-    MediaPlayer mediaPlayer;
+    private MediaPlayer mediaPlayer;
     private boolean isPlaying = false;
 
 
     private long lastUpdate = 0;
     private float last_x, last_y, last_z;
+    private int userVolume;
+    private boolean isMuted;
+    AudioManager audioManager;
+    SharedPreferences sharedPreferences;
 
     public ScreamyService() {
     }
@@ -35,6 +42,7 @@ public class ScreamyService extends Service implements SensorEventListener, Medi
     @Override
     public void onCreate() {
         super.onCreate();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         senSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         Sensor senAccelerometer = senSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         senSensorManager.registerListener(this, senAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
@@ -54,7 +62,7 @@ public class ScreamyService extends Service implements SensorEventListener, Medi
     @Override
     public void onSensorChanged(SensorEvent event) {
         Sensor mySensor = event.sensor;
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
         if (mySensor.getType() == Sensor.TYPE_ACCELEROMETER && sharedPreferences.getBoolean("isDetectFall", true)) {
             float x = event.values[0];
             float y = event.values[1];
@@ -76,14 +84,26 @@ public class ScreamyService extends Service implements SensorEventListener, Medi
                                         mediaPlayer = new MediaPlayer();
                                         mediaPlayer.setDataSource(sharedPreferences.getString("recordPath", ""));
                                         mediaPlayer.prepare();
-                                        mediaPlayer.start();
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
                                 } else {
                                     mediaPlayer = MediaPlayer.create(this, R.raw.screamwilhm);
-                                    mediaPlayer.start();
                                 }
+                                if (sharedPreferences.getBoolean("hearAlways", false)) {
+                                    audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+                                    userVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+                                    isMuted = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) == 0;
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                        audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, 0);
+                                    } else {
+                                        audioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
+                                    }
+                                    if (userVolume < audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC) / 2 + 1) {
+                                        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC) / 2 + 1, 0);
+                                    }
+                                }
+                                mediaPlayer.start();
                                 mediaPlayer.setOnCompletionListener(this);
                             }
                         }
@@ -105,6 +125,9 @@ public class ScreamyService extends Service implements SensorEventListener, Medi
 
     @Override
     public void onCompletion(MediaPlayer mp) {
+        if (sharedPreferences.getBoolean("hearAlways", false)) {
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, userVolume, 0);
+        }
         isPlaying = false;
         mp.release();
         mp = null;

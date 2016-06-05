@@ -28,10 +28,9 @@ import android.widget.TextView;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity implements RecordSoundFragment.OnFragmentInteractionListener {
-    MediaRecorder mediaRecorder;
-    private ImageButton toggleButton;
+    private MediaRecorder mediaRecorder;
     private boolean isRecording = false;
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
 
 
     @Override

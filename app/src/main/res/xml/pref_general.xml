@@ -4,6 +4,11 @@
         android:defaultValue="true"
         android:title="Toggle Fall Detection"
         android:key="isDetectFall" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:title="Always hear sound"
+        android:summary="hear sound even while phone is on silence"
+        android:key="hearAlways" />
     <Preference
         android:key="restoreDefaultScreamButton"
         android:summary="restores sound effect to the default scream"
