@@ -27,9 +27,8 @@ public class ScreamyService extends Service implements SensorEventListener, Medi
     private long lastUpdate = 0;
     private float last_x, last_y, last_z;
     private int userVolume;
-    private boolean isMuted;
-    AudioManager audioManager;
-    SharedPreferences sharedPreferences;
+    private AudioManager audioManager;
+    private SharedPreferences sharedPreferences;
 
     public ScreamyService() {
     }
@@ -50,7 +49,7 @@ public class ScreamyService extends Service implements SensorEventListener, Medi
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        return super.onStartCommand(intent, flags, startId);
+        return Service.START_STICKY;
     }
 
     @Override
@@ -73,7 +72,7 @@ public class ScreamyService extends Service implements SensorEventListener, Medi
             if ((curTime - lastUpdate) > 100) {
                 long diffTime = (curTime - lastUpdate);
                 lastUpdate = curTime;
-                float speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
+                //float speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
                 if (y <= 1.5 && y >= -1.5) {
                     if (x <= 1.5 && x >= -1.5) {
                         if (z <= 1.5 && z >= -1.5) {
@@ -93,12 +92,6 @@ public class ScreamyService extends Service implements SensorEventListener, Medi
                                 if (sharedPreferences.getBoolean("hearAlways", false)) {
                                     audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
                                     userVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-                                    isMuted = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) == 0;
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                        audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, 0);
-                                    } else {
-                                        audioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
-                                    }
                                     if (userVolume < audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC) / 2 + 1) {
                                         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC) / 2 + 1, 0);
                                     }
